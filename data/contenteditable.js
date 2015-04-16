@@ -29,24 +29,14 @@ document.addEventListener('keydown', function(ev){
     if(ev.shiftKey) {
       range.insertNode(this.createElement("br"));
     } else {
-      //console.log("range after delete: " + range.startContainer + range.startOffset + range.endContainer + range.endOffset);
-      //range.setEndAfter(range.commonAncestorContainer);
       var ancestor = range.commonAncestorContainer;
-      //console.log("range to extract: " + range.startContainer + range.startOffset + ancestor.parentNode + (ancestor.parentNode.childNodes.length));
       range.setEnd(ancestor.parentNode, ancestor.parentNode.childNodes.length);
-      //console.log("range to extract: " + range.startContainer + range.startOffset + range.endContainer + range.endOffset);
       var extracted = range.extractContents();
       var newNode;
-      //console.log("range after extract: " + range.startContainer + range.startOffset + range.endContainer + range.endOffset);
-      //console.log("extracted: " + extracted + " " + extracted.childElementCount + " " + extracted.firstElementChild + " " + extracted.childNodes + " " + extracted.childNodes.length);
-      //console.log(extracted);
-      //console.log(extracted.innterHTML);
       if(extracted.firstElementChild instanceof Element && extracted.childNodes.length === 1) {
-        //console.log("duplicate extracted")
         newNode = extracted.firstChild;
       } else {
         ancestor = ancestor.parentElement;
-        //console.log("duplicate parent " + ancestor)
         newNode = ancestor.cloneNode(false);
         var n = extracted.firstChild;
         while(n) {
@@ -56,7 +46,6 @@ document.addEventListener('keydown', function(ev){
         }
       }
       newNode.removeAttribute('id');
-      //console.log("new node: " + newNode + " " + newNode.textContent);
       ancestor.parentNode.insertBefore(newNode, ancestor.nextSibling);
       range.setStart(newNode, 0);
       range.setEnd(newNode, 0);

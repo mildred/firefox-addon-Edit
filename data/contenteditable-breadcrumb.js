@@ -190,22 +190,10 @@ function computeBreadcrumb(force){
   var focusNode = range ? range.commonAncestorContainer : sel.focusNode;
   var focusElement = focusNode.tagName ? focusNode : focusNode.parentElement;
 
-  // If the selection is surrounding a single text node, then select the
-  // characters instead
-  /*if(range.startContainer === focusNode && range.endContainer === focusNode
-     && range.startOffset === range.endOffset - 1
-     && focusNode.childNodes[range.startOffset].nodeType === document.TEXT_NODE)
-  {
-    var textNode = focusNode.childNodes[range.startOffset];
-    range.setStart(textNode, 0);
-    range.setEnd(textNode, textNode.length);
-  }*/
-
   if(!force && lastFocusElement === focusElement) return false;
   lastFocusElement = focusElement;
-  breadcrumb    = [/*focusNode !== focusElement ? focusNode :
-    focusNode.firstChild || focusNode.appendChild(document.createTextNode(""))*/];
-  breadcrumb_ui = [/*{replacement: getReplacement(focusElement)}*/];
+  breadcrumb    = [];
+  breadcrumb_ui = [];
   if(focusNode === focusElement && !range.collapsed){
     breadcrumb_ui = [{replacement: getReplacement(focusElement)}];
   }
@@ -249,11 +237,6 @@ function setBreadcrumbElementType(level, elemid){
         newElem.appendChild(node.childNodes[i]);
       }
       parent.replaceChild(newElem, node);
-    /*} else if(range.startContainer === node && range.endContainer === node && !range.collapsed) {
-      newElem.appendChild(range.extractContents());
-      range.insertNode(newElem);
-      range.selectNodeContents(newElem);
-      savedRange = null;*/
     } else if(node) {
       var nextElem = node.nextSibling;
       newElem.appendChild(node);
