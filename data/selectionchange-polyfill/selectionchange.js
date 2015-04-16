@@ -2,7 +2,6 @@
 
 var selectionchange = (function (undefined) {
 
-  var SELECT_ALL_MODIFIER = /^Mac/.test(navigator.platform) ? 'metaKey' : 'ctrlKey';
   var RANGE_PROPS = ['startContainer', 'startOffset', 'endContainer', 'endOffset'];
 
   var ranges;
@@ -31,6 +30,9 @@ var selectionchange = (function (undefined) {
         off(d, 'mouseup', onMouseUp);
         off(d.defaultView, 'focus', onFocus);
       }
+    },
+    poll: function(doc) {
+      dispatchIfChanged(doc);
     }
   };
 
@@ -71,11 +73,7 @@ var selectionchange = (function (undefined) {
   }
 
   function onKeyDown(e) {
-    var code = e.keyCode;
-    if (code === 65 && e[SELECT_ALL_MODIFIER] && !e.shiftKey && !e.altKey || // Ctrl-A or Cmd-A
-        (code <= 40 && code >= 37) && e.shiftKey) { // (Alt-)Shift-arrow
-      setTimeout(dispatchIfChanged.bind(null, this), 0);
-    }
+    setTimeout(dispatchIfChanged.bind(null, this), 0);
   }
 
   function onMouseDown(e) {

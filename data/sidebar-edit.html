@@ -1,0 +1,95 @@
+<head>
+  <meta charset="utf-8"/>
+  <style>
+    body {
+      margin: 0;
+    }
+
+    ul.breadcrumb > li {
+      margin: 0;
+      padding: 0;
+      display: inline;
+      list-style-type: none;
+      padding: 0;
+    }
+    ul.breadcrumb > li:not(:first-child):before {
+      content: " ";
+      padding: 0 0.25em;
+    }
+    ul.breadcrumb > li:not(:last-child):after {
+      content: " ";
+      padding: 0 0.25em;
+      border-right: thin solid black;
+    }
+
+    section > ul.header {
+      margin: 0;
+      padding: 0;
+      font-size: 0.8rem;
+      width: 100%;
+      background-color: lightgrey;
+      cursor: pointer;
+    }
+    section.closed > ul.header:before {
+      content: "▶";
+      padding-right: 1em;
+    }
+    section.opened > ul.header:before {
+      content: "▼";
+      padding-right: 1em;
+    }
+    section.closed > ul.header {
+      display: block;
+    }
+    section.closed > * {
+      display: none;
+    }
+
+    ul.style:after {
+      display: block;
+      clear: both;
+      content: ".";
+      visibility: hidden;
+      height: 0;
+    }
+    li.style {
+      list-style-type: none;
+      border: 1px solid black;
+      width: 6em;
+      height: 3em;
+      overflow: hidden;
+      position: relative;
+      float: left;
+      cursor: pointer;
+      margin:-1px 0 0 -1px;
+    }
+    li.style.selected {
+      background-color: #e3ffcc;
+    }
+    li.style > .sample {
+      position: absolute;
+      bottom: calc(0.7em + 2px);
+    }
+    li.style > .name {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1px;
+      font-size: 0.7em;
+      background-color: rgba(240, 240, 240, 0.75);
+    }
+    li.style > .tagName {
+      color: rgba(0, 0, 0, 0.20);
+      position: absolute;
+      top: 1px;
+      right: 1px;
+      font-size: 0.7em;
+    }
+  </style>
+</head>
+<body>
+  <div class="breadcrumb"></div>
+  <script src="./event-ui.js"></script>
+  <script src="./sidebar-edit.js"></script>
+</body>
