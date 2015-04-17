@@ -54,10 +54,12 @@ function setBreadcrumb(bc) {
       } else {
         repl.appendChild(li);
 
-        if(r.id) li.addEventListener("click", function(i, rid){
-          event.emit("set-breadcrumb-element-type", i, rid);
-          event.emit('focus');
-        }.bind(this, i, r.id));
+        if(typeof r.id === 'number') {
+          li.addEventListener("click", function(i, rid, rbreak){
+            event.emit("set-breadcrumb-element-type", i, rid, rbreak);
+            event.emit('focus');
+          }.bind(this, i, r.id, r.break));
+        }
       }
 
     }
