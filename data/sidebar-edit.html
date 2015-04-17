@@ -5,24 +5,7 @@
       margin: 0;
     }
 
-    ul.breadcrumb > li {
-      margin: 0;
-      padding: 0;
-      display: inline;
-      list-style-type: none;
-      padding: 0;
-    }
-    ul.breadcrumb > li:not(:first-child):before {
-      content: " ";
-      padding: 0 0.25em;
-    }
-    ul.breadcrumb > li:not(:last-child):after {
-      content: " ";
-      padding: 0 0.25em;
-      border-right: thin solid black;
-    }
-
-    section > ul.header {
+    section:-moz-any(.opened, .closed) > :first-child.header {
       margin: 0;
       padding: 0;
       font-size: 0.8rem;
@@ -30,47 +13,106 @@
       background-color: lightgrey;
       cursor: pointer;
     }
-    section.closed > ul.header:before {
+    section.closed > :first-child.header:before {
       content: "▶";
       padding-right: 1em;
     }
-    section.opened > ul.header:before {
+    section.opened > :first-child.header:before {
       content: "▼";
       padding-right: 1em;
     }
-    section.closed > ul.header {
+    section.closed > :first-child.header {
       display: block;
     }
-    section.closed > * {
+    section.closed > :first-child.header ~ * {
       display: none;
     }
 
+    @keyframes fade-out {
+      from { opacity: 1; display: block; }
+      to   { opacity: 0; display: block; }
+    }
+    @keyframes fade-in  {
+      from { opacity: 0; display: block; }
+      to   { opacity: 1; display: block; }
+    }
+
+    ul.style {
+      margin: 0;
+      position: relative;
+      padding: 0 0 0 1em;
+      transition: height 1s;
+    }
+    ul.style:not(.empty).closed {
+      /*width: calc(6em + 2px);
+      height: calc(3em + 2px);
+      overflow: hidden;*/
+    }
+    ul.style:not(.empty).opened {
+      /*height: calc(13.5em + 5px);
+      overflow-y: scroll;*/
+      padding-bottom: 1em;
+    }
+    ul.style:not(.empty):before {
+      width: 1em;
+      height: 3em;
+      border: 1px solid black;
+      border-right: none;
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      cursor: pointer;
+      text-align: center;
+    }
+    ul.style.opened:not(.empty):before {
+      content: "▲";
+    }
+    ul.style.closed:not(.empty):before {
+      content: "▼";
+    }
+    ul.style.closed > li:not(:first-child) {
+      display: none;
+      /*animation: fade-out 2s 1;*/
+    }
+    ul.style.opened > li:not(:first-child) {
+      animation: fade-in 2s 1;
+    }
     ul.style:after {
       display: block;
       clear: both;
       content: ".";
       visibility: hidden;
-      height: 0;
+      height: 1px;
     }
-    li.style {
+    ul.style > li.style {
       list-style-type: none;
       border: 1px solid black;
       width: 6em;
       height: 3em;
       overflow: hidden;
       position: relative;
-      float: left;
       cursor: pointer;
-      margin:-1px 0 0 -1px;
+      margin: 0 -1px -1px 0;
     }
-    li.style.selected {
+    ul.style > li.style:not(:first-child) {
+      float: left;
+    }
+    ul.style:not(.empty) > li.style:hover {
       background-color: #e3ffcc;
     }
-    li.style > .sample {
+    ul.style > li.style > .sample {
       position: absolute;
       bottom: calc(0.7em + 2px);
     }
-    li.style > .name {
+    ul.style > li.style > .focus {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      top: 0;
+    }
+    ul.style > li.style > .name {
       position: absolute;
       bottom: 0;
       left: 0;
@@ -78,18 +120,27 @@
       padding: 1px;
       font-size: 0.7em;
       background-color: rgba(240, 240, 240, 0.75);
+      white-space: nowrap;
+      overflow: hidden;
     }
-    li.style > .tagName {
+    ul.style > li.style > .tagName {
       color: rgba(0, 0, 0, 0.20);
       position: absolute;
       top: 1px;
       right: 1px;
+      left: 1px;
+      text-align: right;
       font-size: 0.7em;
+      white-space: nowrap;
+      overflow: hidden;
     }
   </style>
 </head>
 <body>
-  <div class="breadcrumb"></div>
+  <section class="opened breadcrumb">
+    <p class="header">Element Tree</p>
+    <div></div>
+  </section>
   <script src="./event-ui.js"></script>
   <script src="./sidebar-edit.js"></script>
 </body>
